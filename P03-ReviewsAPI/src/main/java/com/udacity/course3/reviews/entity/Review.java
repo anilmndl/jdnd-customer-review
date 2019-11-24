@@ -1,6 +1,8 @@
 package com.udacity.course3.reviews.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,26 +12,27 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String reviewDetail;
 
-//    @ManyToOne
-//    @JoinColumn(name = "product_id", nullable = false)
-//    private Product product;
+    // enabling this causes weirdly nested json response
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    @JsonIgnore
+    private Product product;
 
-    @OneToMany
-    @JoinColumn(name = "review_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "review", cascade = CascadeType.ALL)
     private List<Comment>comments;
 
     public Review() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -41,13 +44,13 @@ public class Review {
         this.reviewDetail = reviewDetail;
     }
 
-//    public Product getProduct() {
-//        return product;
-//    }
-//
-//    public void setProduct(Product product) {
-//        this.product = product;
-//    }
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public List<Comment> getComments() {
         return comments;

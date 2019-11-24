@@ -1,5 +1,7 @@
 package com.udacity.course3.reviews.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,9 +14,10 @@ public class Comment {
 
     private String commentDetail;
 
-//    @ManyToOne
-//    @JoinColumn(name = "review_id", nullable = false)
-//    private Review review;
+    @ManyToOne
+    @JoinColumn(name = "review_id", nullable = false)
+    @JsonIgnore
+    private Review review;
 
     public Comment() {
     }
@@ -35,11 +38,11 @@ public class Comment {
         this.commentDetail = commentDetail;
     }
 
-//    public Review getReview() {
-//        return review;
-//    }
-//
-//    public void setReview(Review review) {
-//        this.review = review;
-//    }
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
+    }
 }

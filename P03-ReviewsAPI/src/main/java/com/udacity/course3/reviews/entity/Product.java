@@ -19,8 +19,7 @@ public class Product {
     @Column(name = "product_detail")
     private String productDetail;
 
-    @OneToMany
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     public Product() {
