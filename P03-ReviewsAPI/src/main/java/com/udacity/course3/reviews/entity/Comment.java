@@ -8,7 +8,26 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
-    String commentDetail;
+    private String commentDetail;
+
+    public Comment() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCommentDetail() {
+        return commentDetail;
+    }
+
+    public void setCommentDetail(String commentDetail) {
+        this.commentDetail = commentDetail;
+    }
 }

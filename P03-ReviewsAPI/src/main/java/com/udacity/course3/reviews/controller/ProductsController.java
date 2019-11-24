@@ -1,11 +1,17 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.entity.Product;
+import com.udacity.course3.reviews.exception.ProductNotFoundException;
+import com.udacity.course3.reviews.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpServerErrorException;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Spring REST controller for working with product entity.
@@ -15,17 +21,20 @@ import java.util.List;
 public class ProductsController {
 
     // TODO: Wire JPA repositories here
+    @Autowired
+    private ProductRepository productRepository;
+
 
     /**
      * Creates a product.
-     *
+     * <p>
      * 1. Accept product as argument. Use {@link RequestBody} annotation.
      * 2. Save product.
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createProduct() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+    public void createProduct(@Valid @RequestBody Product product) {
+        productRepository.save(product);
     }
 
     /**
@@ -36,7 +45,13 @@ public class ProductsController {
      */
     @RequestMapping(value = "/{id}")
     public ResponseEntity<?> findById(@PathVariable("id") Integer id) {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+        Optional<Product> productOptional = productRepository.findById(id);
+        if (productOptional.isPresent()) {
+            Product product = productOptional.get();
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        } else {
+            throw new ProductNotFoundException();
+        }
     }
 
     /**
@@ -46,6 +61,7 @@ public class ProductsController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<?> listProducts() {
-        throw new HttpServerErrorException(HttpStatus.NOT_IMPLEMENTED);
+        List<Product> products = (List<Product>) productRepository.findAll();
+        return products;
     }
 }
