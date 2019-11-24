@@ -7,10 +7,14 @@ import javax.persistence.*;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String commentDetail;
+
+//    @ManyToOne
+//    @JoinColumn(name = "review_id", nullable = false)
+//    private Review review;
 
     public Comment() {
     }
@@ -30,4 +34,12 @@ public class Comment {
     public void setCommentDetail(String commentDetail) {
         this.commentDetail = commentDetail;
     }
+
+//    public Review getReview() {
+//        return review;
+//    }
+//
+//    public void setReview(Review review) {
+//        this.review = review;
+//    }
 }

@@ -1,7 +1,3 @@
-# DROP TABLE comments;
-# DROP TABLE reviews;
-# DROP TABLE products;
-
 CREATE TABLE products(
   id INT NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (id),
