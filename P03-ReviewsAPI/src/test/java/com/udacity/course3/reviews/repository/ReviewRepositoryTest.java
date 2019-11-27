@@ -1,6 +1,7 @@
 package com.udacity.course3.reviews.repository;
 
 import com.udacity.course3.reviews.entity.Product;
+import com.udacity.course3.reviews.entity.Review;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +12,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
+import java.util.List;
 
-import java.util.Optional;
-
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.*;
 
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-public class ProductRepositoryTest {
+public class ReviewRepositoryTest {
 
     @Autowired
     private DataSource dataSource;
@@ -35,7 +34,7 @@ public class ProductRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ReviewRepository reviewRepository;
 
     @Test
     public void injected_components_are_not_null(){
@@ -43,26 +42,34 @@ public class ProductRepositoryTest {
         assertNotNull(jdbcTemplate);
         assertNotNull(entityManager);
         assertNotNull(testEntityManager);
-        assertNotNull(productRepository);
-
+        assertNotNull(reviewRepository);
     }
 
     @Test
-    public void product_repository_returns_product_by_id(){
-        // create product
+    public void review_repository_returns_reviews_by_product(){
+        // create a product
         Product product = new Product();
         product.setProductTitle("Test Product");
         product.setProductDetail("Test product detail");
-
-        // save it
         entityManager.persist(product);
 
-        Optional<Product> productOptional = productRepository.findById(product.getId());
-        Product actual = productOptional.get();
+        // create couple reviews
+        Review review1 = new Review();
+        review1.setReviewDetail("Test Review 1");
+        review1.setProduct(product);
+        entityManager.persist(review1);
+
+        Review review2 = new Review();
+        review2.setReviewDetail("Test Review 2");
+        review2.setProduct(product);
+        entityManager.persist(review2);
+
+        List<Review> reviews = reviewRepository.findAllByProduct(product);
 
         // check to make sure things are as expected
-        assertNotNull(actual);
-        assertEquals(product.getProductTitle(), actual.getProductTitle());
+        assertNotNull(reviews);
+        assertEquals(2, reviews.size());
+        assertTrue(reviews.contains(review1));
+        assertTrue(reviews.contains(review2));
     }
-
 }
