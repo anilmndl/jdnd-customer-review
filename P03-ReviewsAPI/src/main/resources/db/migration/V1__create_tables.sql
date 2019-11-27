@@ -27,38 +27,38 @@ CREATE TABLE comments(
 );
 
 INSERT INTO products (product_title, product_detail)
-VALUES ("Tesla Cybertron", "Angular designed truck.");
+VALUES ('Tesla Cybertron', 'Angular designed truck.');
 
 INSERT INTO reviews (review_detail, product_id)
-VALUES ("The design is enticing.", 1);
+VALUES ('The design is enticing.', 1);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("I am not so sure.", 1);
+VALUES ('I am not so sure.', 1);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("I second that.", 1);
+VALUES ('I second that.', 1);
 
 
 INSERT INTO reviews (review_detail, product_id)
-VALUES ("The design is weird.", 1);
+VALUES ('The design is weird.', 1);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("Agreed.", 2);
+VALUES ('Agreed.', 2);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("Look like a truck designed by 5 year old kid.", 2);
+VALUES ('Look like a truck designed by 5 year old kid.', 2);
 
 
 
 INSERT INTO products (product_title, product_detail)
-VALUES ("Ford 150", "100 years of the same product");
+VALUES ('Ford 150', '100 years of the same product');
 
 INSERT INTO reviews (review_detail, product_id)
-VALUES ("100 years of trust in just one truck.", 2);
+VALUES ('100 years of trust in just one truck.', 2);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("Its awesome.", 3);
+VALUES ('Its awesome.', 3);
 
 INSERT INTO comments (comment_detail, review_id)
-VALUES ("Nobody can beat Ford 150.", 3);
+VALUES ('Nobody can beat Ford 150.', 3);
 
