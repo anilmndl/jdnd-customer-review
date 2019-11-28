@@ -3,13 +3,12 @@ package com.udacity.course3.reviews.controller;
 import com.udacity.course3.reviews.document.Review;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
-import com.udacity.course3.reviews.repository.MongoReviewRepository;
+import com.udacity.course3.reviews.mongoRepository.MongoReviewRepository;
 import com.udacity.course3.reviews.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -54,7 +53,7 @@ public class ProductsController {
             Product product = productOptional.get();
 
             // fetch reviews from mongodb
-            List<Review> mongoReviews = mongoReviewRepository.findReviewByProductId(product.getId());
+            List<Review> mongoReviews = mongoReviewRepository.findReviewsByProductId(product.getId());
             product.setMongoReviews(mongoReviews);
 
             return new ResponseEntity<>(product, HttpStatus.OK);

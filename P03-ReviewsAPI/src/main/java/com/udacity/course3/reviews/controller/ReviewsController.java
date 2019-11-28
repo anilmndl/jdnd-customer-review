@@ -4,7 +4,7 @@ import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.entity.Review;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
 import com.udacity.course3.reviews.repository.ProductRepository;
-import com.udacity.course3.reviews.repository.MongoReviewRepository;
+import com.udacity.course3.reviews.mongoRepository.MongoReviewRepository;
 import com.udacity.course3.reviews.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
