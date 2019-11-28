@@ -1,7 +1,9 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.document.Review;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
+import com.udacity.course3.reviews.repository.MongoReviewRepository;
 import com.udacity.course3.reviews.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,9 +22,11 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductsController {
 
-    // TODO: Wire JPA repositories here
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private MongoReviewRepository mongoReviewRepository;
 
 
     /**
@@ -48,6 +52,11 @@ public class ProductsController {
         Optional<Product> productOptional = productRepository.findById(id);
         if (productOptional.isPresent()) {
             Product product = productOptional.get();
+
+            // fetch reviews from mongodb
+            List<Review> mongoReviews = mongoReviewRepository.findReviewByProductId(product.getId());
+            product.setMongoReviews(mongoReviews);
+
             return new ResponseEntity<>(product, HttpStatus.OK);
         } else {
             throw new ProductNotFoundException();

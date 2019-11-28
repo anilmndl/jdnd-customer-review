@@ -22,6 +22,9 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
+    @Transient
+    private List<com.udacity.course3.reviews.document.Review> mongoReviews;
+
     public Product() {
     }
 
@@ -55,5 +58,13 @@ public class Product {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<com.udacity.course3.reviews.document.Review> getMongoReviews() {
+        return mongoReviews;
+    }
+
+    public void setMongoReviews(List<com.udacity.course3.reviews.document.Review> mongoReviews) {
+        this.mongoReviews = mongoReviews;
     }
 }

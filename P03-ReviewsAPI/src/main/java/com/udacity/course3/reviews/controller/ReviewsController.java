@@ -4,15 +4,14 @@ import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.entity.Review;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
 import com.udacity.course3.reviews.repository.ProductRepository;
+import com.udacity.course3.reviews.repository.MongoReviewRepository;
 import com.udacity.course3.reviews.repository.ReviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpServerErrorException;
 
 import javax.validation.Valid;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /**
@@ -27,6 +26,9 @@ public class ReviewsController {
 
     @Autowired
     private ReviewRepository reviewRepository;
+
+    @Autowired
+    private MongoReviewRepository reviewMongoRepository;
 
     /**
      * Creates a review for a product.
@@ -55,7 +57,8 @@ public class ReviewsController {
             }
             productRepository.save(product);
             return new ResponseEntity<>(product, HttpStatus.OK);
-        } else {
+        }
+        else {
             throw new ProductNotFoundException();
         }
     }
@@ -76,5 +79,14 @@ public class ReviewsController {
         }
 
         throw new ProductNotFoundException();
+    }
+
+    @RequestMapping(value = "/reviews/products/mongo", method = RequestMethod.GET)
+    public ResponseEntity<com.udacity.course3.reviews.document.Review> mongoReview(){
+        com.udacity.course3.reviews.document.Review review = new com.udacity.course3.reviews.document.Review();
+        review.setReviewDetail("sample mongo review");
+        review.setProductId(1);
+        reviewMongoRepository.save(review);
+        return new ResponseEntity<>(review, HttpStatus.OK);
     }
 }
