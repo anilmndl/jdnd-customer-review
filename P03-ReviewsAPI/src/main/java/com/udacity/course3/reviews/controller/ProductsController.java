@@ -1,6 +1,6 @@
 package com.udacity.course3.reviews.controller;
 
-import com.udacity.course3.reviews.document.Review;
+import com.udacity.course3.reviews.document.MongoReview;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
 import com.udacity.course3.reviews.mongoRepository.MongoReviewRepository;
@@ -33,6 +33,11 @@ public class ProductsController {
      * <p>
      * 1. Accept product as argument. Use {@link RequestBody} annotation.
      * 2. Save product.
+     * sample request body
+     * {
+     * 	"productTitle": "Tesla Model S",
+     * 	"productDetail": "Electric car by Tesla Motor Co."
+     * }
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
@@ -53,7 +58,7 @@ public class ProductsController {
             Product product = productOptional.get();
 
             // fetch reviews from mongodb
-            List<Review> mongoReviews = mongoReviewRepository.findReviewsByProductId(product.getId());
+            List<MongoReview> mongoReviews = mongoReviewRepository.findReviewsByProductId(product.getId());
             product.setMongoReviews(mongoReviews);
 
             return new ResponseEntity<>(product, HttpStatus.OK);

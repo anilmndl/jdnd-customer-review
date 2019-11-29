@@ -1,12 +1,15 @@
 package com.udacity.course3.reviews.document;
 
+import com.udacity.course3.reviews.entity.Comment;
+import com.udacity.course3.reviews.entity.Review;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document("reviews")
-public class Review {
+public class MongoReview {
 
     @Id
     private String id;
@@ -15,9 +18,20 @@ public class Review {
 
     private int productId;
 
-    private List<String> comments;
+    private List<String> comments = new ArrayList<>();
 
-    public Review() {
+    public MongoReview() {
+    }
+
+    // when saving reviews to SQL, we need to construct review document as well
+    public MongoReview(Review review) {
+        this.productId = review.getProduct().getId();
+        this.reviewDetail = review.getReviewDetail();
+        if (review.getComments() != null) {
+            for (Comment comment : review.getComments()) {
+                comments.add(comment.getCommentDetail());
+            }
+        }
     }
 
     public String getId() {

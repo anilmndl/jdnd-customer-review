@@ -1,6 +1,6 @@
 package com.udacity.course3.reviews.controller;
 
-import com.udacity.course3.reviews.document.Review;
+import com.udacity.course3.reviews.document.MongoReview;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
 import com.udacity.course3.reviews.mongoRepository.MongoReviewRepository;
@@ -38,7 +38,7 @@ public class MongoReviewController {
      * }
      */
     @RequestMapping(value = "/mongo/reviews/products/{productId}", method = RequestMethod.POST)
-    public ResponseEntity<?> createReviewForProduct(@PathVariable int productId, @Valid @RequestBody Review review){
+    public ResponseEntity<?> createReviewForProduct(@PathVariable int productId, @Valid @RequestBody MongoReview review){
         Optional<Product> productOptional = productRepository.findById(productId);
         if(productOptional.isPresent()){
             mongoReviewRepository.save(review);

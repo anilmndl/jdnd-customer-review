@@ -1,6 +1,6 @@
 package com.udacity.course3.reviews.mongoRepository;
 
-import com.udacity.course3.reviews.document.Review;
+import com.udacity.course3.reviews.document.MongoReview;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -29,13 +29,13 @@ public class MongoReviewRepositoryTest {
     @Test
     public void create_new_review() {
         // given
-        Review review = new Review();
+        MongoReview review = new MongoReview();
         review.setProductId(1);
         review.setReviewDetail("test review");
         review.setComments(Arrays.asList("test comment 1", "test comment 2"));
         mongoReviewRepository.save(review);
 
-        Optional<Review> optionalReview = mongoReviewRepository.findById(review.getId());
+        Optional<MongoReview> optionalReview = mongoReviewRepository.findById(review.getId());
         Assert.assertTrue(optionalReview.isPresent());
         Assert.assertEquals(optionalReview.get().getReviewDetail(),"test review");
     }
@@ -43,13 +43,13 @@ public class MongoReviewRepositoryTest {
     @Test
     public void fetch_reviews_by_product_id() {
         // given
-        Review review = new Review();
+        MongoReview review = new MongoReview();
         review.setProductId(1);
         review.setReviewDetail("test review");
         review.setComments(Arrays.asList("test comment 1", "test comment 2"));
         mongoReviewRepository.save(review);
 
-        List<Review> reviews = mongoReviewRepository.findReviewsByProductId(1);
+        List<MongoReview> reviews = mongoReviewRepository.findReviewsByProductId(1);
         Assert.assertEquals(reviews.size(), 1);
         Assert.assertEquals(reviews.get(0).getComments().size(), 2);
     }

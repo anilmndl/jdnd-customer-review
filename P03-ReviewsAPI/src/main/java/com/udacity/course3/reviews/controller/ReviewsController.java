@@ -1,5 +1,7 @@
 package com.udacity.course3.reviews.controller;
 
+import com.udacity.course3.reviews.document.MongoReview;
+import com.udacity.course3.reviews.entity.Comment;
 import com.udacity.course3.reviews.entity.Product;
 import com.udacity.course3.reviews.entity.Review;
 import com.udacity.course3.reviews.exception.ProductNotFoundException;
@@ -20,7 +22,6 @@ import java.util.*;
 @RestController
 public class ReviewsController {
 
-    // TODO: Wire JPA repositories here
     @Autowired
     private ProductRepository productRepository;
 
@@ -40,6 +41,16 @@ public class ReviewsController {
      *
      * @param productId The id of the product.
      * @return The created review or 404 if product id is not found.
+     *
+     * sample request body
+     * {
+     * 	"reviewDetail":"sample review detail for mongo db",
+     * 	"productId": 5,
+     * 	"comments": [
+     * 		{"commentDetail": "this is comment detail 1"},
+     * 		{"commentDetail": "this is comment detail 2"}
+     * 	]
+     * }
      */
     @RequestMapping(value = "/reviews/products/{productId}", method = RequestMethod.POST)
     public ResponseEntity<?> createReviewForProduct(@PathVariable("productId") Integer productId, @Valid @RequestBody Review review) {
@@ -55,7 +66,16 @@ public class ReviewsController {
                 reviews.add(review);
                 product.setReviews(reviews);
             }
+
+            if(review.getComments() != null){
+                for(Comment comment : review.getComments()){
+                    comment.setReview(review);
+                }
+            }
+
+            // persist the reviews on both MySQL and MongoDb
             productRepository.save(product);
+            reviewMongoRepository.save(new MongoReview(review));
             return new ResponseEntity<>(product, HttpStatus.OK);
         }
         else {
@@ -82,8 +102,8 @@ public class ReviewsController {
     }
 
     @RequestMapping(value = "/reviews/products/mongo", method = RequestMethod.GET)
-    public ResponseEntity<com.udacity.course3.reviews.document.Review> mongoReview(){
-        com.udacity.course3.reviews.document.Review review = new com.udacity.course3.reviews.document.Review();
+    public ResponseEntity<MongoReview> mongoReview(){
+        MongoReview review = new MongoReview();
         review.setReviewDetail("sample mongo review");
         review.setProductId(1);
         reviewMongoRepository.save(review);

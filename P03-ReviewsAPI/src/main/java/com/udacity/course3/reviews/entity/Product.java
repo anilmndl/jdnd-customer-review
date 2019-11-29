@@ -1,5 +1,7 @@
 package com.udacity.course3.reviews.entity;
 
+import com.udacity.course3.reviews.document.MongoReview;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -23,7 +25,7 @@ public class Product {
     private List<Review> reviews;
 
     @Transient
-    private List<com.udacity.course3.reviews.document.Review> mongoReviews;
+    private List<MongoReview> mongoReviews;
 
     public Product() {
     }
@@ -60,11 +62,11 @@ public class Product {
         this.reviews = reviews;
     }
 
-    public List<com.udacity.course3.reviews.document.Review> getMongoReviews() {
+    public List<MongoReview> getMongoReviews() {
         return mongoReviews;
     }
 
-    public void setMongoReviews(List<com.udacity.course3.reviews.document.Review> mongoReviews) {
+    public void setMongoReviews(List<MongoReview> mongoReviews) {
         this.mongoReviews = mongoReviews;
     }
 }
